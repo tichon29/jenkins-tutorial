@@ -8,7 +8,7 @@ pipeline {
                     #!/bin/sh
                     ls -la
                     echo "Checking fit"
-                    if [grep -rnw 'firstJenkinsProject/test' -e 'fit('] || [grep -rnw 'firstJenkinsProject/test' -e 'fdescribe(']
+                    if (grep -rnw 'firstJenkinsProject/test' -e 'fit(') || (grep -rnw 'firstJenkinsProject/test' -e 'fdescribe(')
                     then
                         echo "Should fail"
                         currentBuild.result = 'FAILURE'
