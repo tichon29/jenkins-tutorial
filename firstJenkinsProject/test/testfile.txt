@@ -1,2 +1,2 @@
 this is a test file
-it contains fit() and fdescribe()
+it contains fit and fdescribe()
