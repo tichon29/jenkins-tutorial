@@ -11,7 +11,7 @@ pipeline {
                     if (grep -rnw 'firstJenkinsProject/test' -e 'fit(') || (grep -rnw 'firstJenkinsProject/test' -e 'fdescribe(')
                     then
                         echo "Should fail"
-                        exit(1)
+                        exit 1
                     else
                         echo "We are clean"
                     fi
