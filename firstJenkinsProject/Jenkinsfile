@@ -6,8 +6,12 @@ pipeline {
                 sh 'echo "Checking files"'
                 sh '''
                     ls -la
+                    echo "Checking fit"
                     fitList=$(grep -rnw 'firstJenkinsProject/test' -e 'fit(')
+                    echo $fitList
+                    echo "Checking fdescribe"
                     fdescribeList=$(grep -rnw 'firstJenkinsProject/test' -e 'fdescribe(')
+                    echo $fdescribeList
                     if [ -z "$fitList" ] && [ -z "$fdescribeList" ]
                     then
                         echo "We are clean."
