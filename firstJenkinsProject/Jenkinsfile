@@ -5,6 +5,7 @@ pipeline {
             steps {
                 sh 'echo "Checking files"'
                 sh '''
+                    #!/bin/sh
                     ls -la
                     echo "Checking fit"
                     fitList=$(grep -rnw 'firstJenkinsProject/test' -e 'fit(')
