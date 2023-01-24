@@ -3,11 +3,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Hello World"'
+                sh 'echo "Checking files"'
                 sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
+                    fitList=$(grep -rnw ./test -e 'fit(')
+                    fdescribeList=$(grep -rnw ./test -e 'fdescribe(')
+                    if [ -z "$fitList" ] && [ -z "$fdescribeList" ]
+                    then
+                        echo "We are clean."
+                    else
+                        echo "Should fail"
+                        currentBuild.result = 'FAILURE'
+                    fi
+                    echo "end"
                 '''
+            }
+        }
+        stage('2nd Step') {
+            steps {
+                sh 'echo "Hello World"'
             }
         }
     }
