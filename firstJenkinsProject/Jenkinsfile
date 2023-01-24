@@ -5,6 +5,7 @@ pipeline {
             steps {
                 sh 'echo "Checking files"'
                 sh '''
+                    ls -la
                     fitList=$(grep -rnw ./firstJenkinsFile/test -e 'fit(')
                     fdescribeList=$(grep -rnw ./firstJenkinsFile/test -e 'fdescribe(')
                     if [ -z "$fitList" ] && [ -z "$fdescribeList" ]
