@@ -2,11 +2,17 @@ pipeline {
     agent any
     stages {
         stage('Build') {
+            options {
+                timeout(time: 1, unit: "SECONDS")
+            }
             steps {
                 sh 'echo "Checking files"'
                 sh '''
                     #!/bin/sh
                     ls -la
+                    echo "Go to sleep for 2s"
+                    sleep(time: 5, unit: "SECONDS")
+                    echo "awake"
                     echo "Checking fit"
                     if (grep -rnw 'firstJenkinsProject/test' -e 'fit(') || (grep -rnw 'firstJenkinsProject/test' -e 'fdescribe(')
                     then
