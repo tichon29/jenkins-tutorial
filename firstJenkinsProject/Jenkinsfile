@@ -3,11 +3,11 @@ pipeline {
     stages {
         stage('Build') {
             options {
-                timeout(time: 1, unit: "SECONDS")
+                timeout(time: 10, unit: "SECONDS")
             }
             steps {
-                echo "Go to sleep for 2s"
-                sleep(time: 2, unit: "SECONDS")
+                echo "Go to sleep for 1s"
+                sleep(time: 1, unit: "SECONDS")
                 echo "awake"
                 sh 'echo "Checking files"'
                 sh '''
