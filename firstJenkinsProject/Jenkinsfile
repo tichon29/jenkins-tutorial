@@ -46,7 +46,8 @@ String getChangedFilesList() {
     changedFiles = []
     for (changeLogSet in currentBuild.changeSets) {
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
-            echo entry
+            echo "Updated Message is: "
+               echo entry.getMsgAnnotated()
             for (file in entry.getAffectedFiles()) {
                 echo "Updated file is: "
                 echo file.getPath()
