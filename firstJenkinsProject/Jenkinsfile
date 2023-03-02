@@ -30,5 +30,24 @@ pipeline {
                 sh 'echo "Hello World"'
             }
         }
+        // returns a list of changed files
+        stage('Check all updates') {
+            echo "Get list of updated files"
+            String getChangedFilesList() {
+                echo "inside Get Changed Files List"
+                changedFiles = []
+                for (changeLogSet in currentBuild.changeSets) {
+                    for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
+                        for (file in entry.getAffectedFiles()) {
+                            echo "Updated file is: "
+                            echo file.getPath()
+                            changedFiles.add(file.getPath()) // add changed file to list
+                        }
+                    }
+                }
+                return changedFiles
+            }
+            getChangedFilesList()
+        }
     }
 }
