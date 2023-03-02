@@ -32,8 +32,10 @@ pipeline {
         }
         // returns a list of changed files
         stage('Check all updates') {
-            echo "Get list of updated files"
-            getChangedFilesList()
+            steps {
+                echo "Get list of updated files"
+                getChangedFilesList()
+            }        
         }
     }
 }
