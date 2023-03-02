@@ -44,6 +44,7 @@ pipeline {
 String getChangedFilesList() {
     echo "inside Get Changed Files List"
     changedFiles = []
+    echo currentBuild.changeSets
     for (changeLogSet in currentBuild.changeSets) {
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
             for (file in entry.getAffectedFiles()) {
