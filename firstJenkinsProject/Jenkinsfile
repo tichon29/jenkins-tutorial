@@ -1,3 +1,5 @@
+Boolean isMatchingPR
+
 pipeline {
     agent any
     stages {
@@ -25,9 +27,49 @@ pipeline {
                 '''
             }
         }
-        stage('2nd Step') {
+        stage('For PR - Check PR Title') {
+            when {
+                expression { env.BRANCH_NAME !== 'main' }
+            }
             steps {
-                sh 'echo "Hello World"'
+                echo "This is a PR"
+                def testStr = "abc-012"
+                def testRegexp = /abc-\/([0-9]*)/
+                if (testStr.startsWith('abc')) {
+                    echo "Matching abc"
+                    if (testStr =~ testRegexp) {
+                        echo "Matching Regexp"
+                    }
+                }
+            }
+        }
+        stage('For PR - Check PR Title') {
+            when {
+                expression { env.BRANCH_NAME !== 'main' }
+            }
+            steps {
+                echo "This is a PR"
+                def testStr = "abc-012"
+                def testRegexp = /abc-\/([0-9]*)/
+                if (testStr.startsWith('abc')) {
+                    echo "Matching abc"
+                    if (testStr =~ testRegexp) {
+                        echo "Matching Regexp"
+                        isMatchingPR = true
+                    }
+                }
+            }
+        }
+        stage('Matching PR') {
+            when {
+                isMatchingPR
+            }
+            steps {
+                echo "Matching PR"
+                input {
+                    message "Ok with this?"
+                    ok "Yes"
+                }
             }
         }
         // returns a list of changed files
@@ -46,7 +88,7 @@ String getChangedFilesList() {
     changedFiles = []
     for (changeLogSet in currentBuild.changeSets) {
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
-            echo "Updated Message is: "
+            echo "Commit Message is: "
                echo entry.getMsgAnnotated()
             for (file in entry.getAffectedFiles()) {
                 echo "Updated file is: "
