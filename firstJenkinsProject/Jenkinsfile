@@ -33,7 +33,7 @@ pipeline {
             }
             steps {
                 echo "This is a PR"
-                isMatchingPR = checkTitleFake()
+                // isMatchingPR = checkTitleFake()
                 // echo isMatchingPR
             }
         }
