@@ -1,4 +1,4 @@
-// Boolean isMatchingPR
+Boolean isMatchingPR
 
 pipeline {
     agent any
@@ -32,9 +32,11 @@ pipeline {
             //     expression { BRANCH_NAME !== 'main' }
             // }
             steps {
-                echo "This is a PR"
-                checkTitleFake()
-                //echo isMatchingPR
+                echo isMatchingPR
+                script {
+                    isMatchingPR = checkTitleFake()
+                }
+                echo isMatchingPR
             }
         }
         stage('Matching PR') {
@@ -44,7 +46,9 @@ pipeline {
             steps {
                 echo "Manual input needed"
                 script {
-                    input (message: "Ok with this?", ok: "Yes")
+                    if (isMatchingPR) {
+                        input (message: "Ok with this?", ok: "Yes")
+                    }
                 }
                 echo "After script"
             }
