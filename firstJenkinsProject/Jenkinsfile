@@ -62,7 +62,7 @@ pipeline {
 @NonCPS
 boolean checkTitleFake() {
     def testStr = "abc-012"
-    def testRegexp = /abc-([0-9]*)/
+    def testRegexp = /^bc-([0-9]*)/
     if (testStr.startsWith('abc')) {
         echo "Matching abc"
         if (testStr =~ testRegexp) {
