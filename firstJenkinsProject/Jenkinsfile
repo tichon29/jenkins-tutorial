@@ -33,31 +33,8 @@ pipeline {
             }
             steps {
                 echo "This is a PR"
-                def testStr = "abc-012"
-                def testRegexp = /abc-\/([0-9]*)/
-                if (testStr.startsWith('abc')) {
-                    echo "Matching abc"
-                    if (testStr =~ testRegexp) {
-                        echo "Matching Regexp"
-                    }
-                }
-            }
-        }
-        stage('For PR - Check PR Title') {
-            when {
-                expression { env.BRANCH_NAME !== 'main' }
-            }
-            steps {
-                echo "This is a PR"
-                def testStr = "abc-012"
-                def testRegexp = /abc-\/([0-9]*)/
-                if (testStr.startsWith('abc')) {
-                    echo "Matching abc"
-                    if (testStr =~ testRegexp) {
-                        echo "Matching Regexp"
-                        isMatchingPR = true
-                    }
-                }
+                isMatchingPR = checkTitleFake()
+                echo isMatchingPR
             }
         }
         stage('Matching PR') {
@@ -83,6 +60,18 @@ pipeline {
 }
 
 @NonCPS
+boolean checkTitleFake() {
+    def testStr = "abc-012"
+    def testRegexp = /abc-\/([0-9]*)/
+    if (testStr.startsWith('abc')) {
+        echo "Matching abc"
+        if (testStr =~ testRegexp) {
+            echo "Matching Regexp"
+            return true
+        }
+    }
+    return false
+}
 String getChangedFilesList() {
     echo "inside Get Changed Files List"
     changedFiles = []
