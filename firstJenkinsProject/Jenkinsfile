@@ -44,7 +44,7 @@ pipeline {
             steps {
                 echo "Manual input needed"
                 script {
-                    input (message "Ok with this?", ok "Yes")
+                    input (message: "Ok with this?", ok: "Yes")
                 }
                 echo "After script"
             }
