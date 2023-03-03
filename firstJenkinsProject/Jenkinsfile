@@ -46,7 +46,8 @@ pipeline {
                 echo "Manual input needed"
                 script {
                     if (isMatchingPR) {
-                        input (message: "Ok with this?", ok: "Yes", submitter: "test", submitterParameter: "SUBMITTER_USERNAME")
+                        approver = input (message: "Ok with this?", ok: "Yes", submitter: "tichon", submitterParameter: "SUBMITTER_USERNAME")
+                        echo "approver"
                     }
                 }
                 echo "After script"
