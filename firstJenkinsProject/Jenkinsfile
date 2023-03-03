@@ -43,10 +43,10 @@ pipeline {
             // }
             steps {
                 echo "Manual input needed"
-                input {
-                    message "Ok with this?"
-                    ok "Yes"
+                script {
+                    input (message "Ok with this?", ok "Yes")
                 }
+                echo "After script"
             }
         }
         // returns a list of changed files
