@@ -32,11 +32,10 @@ pipeline {
             //     expression { BRANCH_NAME !== 'main' }
             // }
             steps {
-                echo isMatchingPR
+                echo "Check Is Matching PR"
                 script {
                     isMatchingPR = checkTitleFake()
                 }
-                echo isMatchingPR
             }
         }
         stage('Matching PR') {
