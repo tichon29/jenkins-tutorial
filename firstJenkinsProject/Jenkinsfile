@@ -34,21 +34,21 @@ pipeline {
             steps {
                 echo "This is a PR"
                 isMatchingPR = checkTitleFake()
-                echo isMatchingPR
+                // echo isMatchingPR
             }
         }
-        stage('Matching PR') {
-            when {
-                isMatchingPR
-            }
-            steps {
-                echo "Matching PR"
-                input {
-                    message "Ok with this?"
-                    ok "Yes"
-                }
-            }
-        }
+        // stage('Matching PR') {
+        //     when {
+        //         isMatchingPR
+        //     }
+        //     steps {
+        //         echo "Matching PR"
+        //         input {
+        //             message "Ok with this?"
+        //             ok "Yes"
+        //         }
+        //     }
+        // }
         // returns a list of changed files
         stage('Check all updates') {
             steps {
