@@ -33,8 +33,10 @@ pipeline {
             // }
             steps {
                 echo "This is a PR"
+                echo isMatchingPR
+                isMatchingPR = true
                 checkTitleFake()
-                // echo isMatchingPR
+                echo isMatchingPR
             }
         }
         // stage('Matching PR') {
@@ -62,7 +64,7 @@ pipeline {
 @NonCPS
 boolean checkTitleFake() {
     def testStr = "abc-012"
-    def testRegexp = /abc-\/([0-9]*)/
+    def testRegexp = /abc-([0-9]*)/
     if (testStr.startsWith('abc')) {
         echo "Matching abc"
         if (testStr =~ testRegexp) {
