@@ -46,7 +46,7 @@ pipeline {
                 echo "Manual input needed"
                 script {
                     if (isMatchingPR) {
-                        input (message: "Ok with this?", ok: "Yes")
+                        input (message: "Ok with this?", ok: "Yes", submitter: "tichon29", submitterParameter "SUBMITTER_USERNAME")
                     }
                 }
                 echo "After script"
@@ -65,7 +65,7 @@ pipeline {
 @NonCPS
 boolean checkTitleFake() {
     def testStr = "abc-012"
-    def testRegexp = /^abcd-[0-9]*/
+    def testRegexp = /^abc-[0-9]*/
     if (testStr.startsWith('abc')) {
         echo "Matching abc"
         if (testStr =~ testRegexp) {
