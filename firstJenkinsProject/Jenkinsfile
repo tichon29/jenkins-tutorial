@@ -29,7 +29,7 @@ pipeline {
         }
         stage('For PR - Check PR Title') {
             when {
-                expression { env.BRANCH_NAME !== 'main' }
+                expression { BRANCH_NAME !== 'main' }
             }
             steps {
                 echo "This is a PR"
