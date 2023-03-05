@@ -1,6 +1,6 @@
 Boolean isMatchingPR
 
-CODE_CHANGES=getGitChanges()
+// CODE_CHANGES=getGitChanges()
 pipeline {
     agent any
     stages {
@@ -40,8 +40,11 @@ pipeline {
             }
         }
         stage('Check if code changes on main branch') {
+            // when {
+            //     expression { BRANCH_NAME == 'main' && CODE_CHANGES == true}
+            // }
             when {
-                expression { BRANCH_NAME == 'main' && CODE_CHANGES == true}
+                expression { BRANCH_NAME == 'main'}
             }
             steps {
                 echo "Code has changed on main branch"
