@@ -3,6 +3,9 @@ Boolean isMatchingPR
 // CODE_CHANGES=getGitChanges()
 pipeline {
     agent any
+    environment {
+        MY_ENV_VAR = "1.0.0"
+    }
     stages {
         stage('Build') {
             options {
@@ -48,7 +51,9 @@ pipeline {
             }
             steps {
                 echo "Code has changed on main branch"
-                echo $GIT_COMMIT
+                echo "Git Commit: ${GIT_COMMIT}"
+                echo "Env Variable: ${MY_ENV_VAR}"
+                echo "Branch Name: ${BRANCH_NAME}"
             }
         }
         stage('Matching PR') {
