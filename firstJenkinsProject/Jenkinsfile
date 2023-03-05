@@ -48,6 +48,7 @@ pipeline {
             }
             steps {
                 echo "Code has changed on main branch"
+                echo $GIT_COMMIT
             }
         }
         stage('Matching PR') {
