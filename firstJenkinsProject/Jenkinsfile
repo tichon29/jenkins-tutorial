@@ -1,5 +1,6 @@
 Boolean isMatchingPR
 
+CODE_CHANGES=getGitChanges()
 pipeline {
     agent any
     stages {
@@ -28,14 +29,22 @@ pipeline {
             }
         }
         stage('For PR - Check PR Title') {
-            // when {
-            //     expression { BRANCH_NAME !== 'main' }
-            // }
+            when {
+                expression { BRANCH_NAME != 'main' }
+            }
             steps {
                 echo "Check Is Matching PR"
                 script {
                     isMatchingPR = checkTitleFake()
                 }
+            }
+        }
+        stage('Check if code changes on main branch') {
+            when {
+                expression { BRANCH_NAME == 'main' && CODE_CHANGES == true}
+            }
+            steps {
+                echo "Code has changed on main branch"
             }
         }
         stage('Matching PR') {
@@ -46,8 +55,7 @@ pipeline {
                 echo "Manual input needed"
                 script {
                     if (isMatchingPR) {
-                        approver = input (message: "Ok with this?", ok: "Yes", submitter: "tichon", submitterParameter: "SUBMITTER_USERNAME")
-                        echo "approver"
+                        input (message: "Ok with this?", ok: "Yes", submitter: "tichon", submitterParameter: "SUBMITTER_USERNAME")
                     }
                 }
                 echo "After script"
