@@ -50,6 +50,7 @@ pipeline {
                 expression { BRANCH_NAME == 'main'}
             }
             steps {
+                sh 'printenv'
                 echo "Code has changed on main branch"
                 echo "Git Commit: ${GIT_COMMIT}"
                 echo "Env Variable: ${MY_ENV_VAR}"
@@ -57,18 +58,18 @@ pipeline {
             }
         }
         stage('Matching PR') {
-            // when {
-            //     isMatchingPR
-            // }
+            when {
+                expression { isMatchingPR }
+            }
             steps {
                 echo "Manual input needed"
                 script {
-                    if (isMatchingPR) {
-                        input (message: "Ok with this?", ok: "Yes", submitter: "tichon", submitterParameter: "SUBMITTER_USERNAME")
-                    }
+                    // if (isMatchingPR) {
+                    input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                    // }
                 }
                 echo "After script"
-            }
+            }   
         }
         // returns a list of changed files
         stage('Check all updates') {
