@@ -62,10 +62,11 @@ pipeline {
                 expression { isMatchingPR }
             }
             steps {
+                sh 'printenv'
                 echo "Manual input needed"
                 script {
                     // if (isMatchingPR) {
-                    input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                    input (message: "Ok with these changes?", ok: "Oh Yes", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
                     // }
                 }
                 echo "After script"
