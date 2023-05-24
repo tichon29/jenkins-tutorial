@@ -64,6 +64,13 @@ pipeline {
             steps {
                 echo "Print the env variables"
                 sh 'printenv'
+                echo "Git Commit: ${GIT_COMMIT}"
+                echo "Env Variable: ${MY_ENV_VAR}"
+                echo "Branch Name: ${BRANCH_NAME}"
+                sh 'git rev-parse ${GIT_COMMIT}'
+                sh 'git rev-parse ${GIT_COMMIT}^1'
+                sh 'git log --pretty=%P -n 1'
+                sh "git hist | grep origin/main | cut -d ' ' -f 2"
                 echo "Manual input needed"
                 script {
                     // if (isMatchingPR) {
