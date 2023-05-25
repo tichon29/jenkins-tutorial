@@ -3,6 +3,9 @@ Boolean isMatchingPR
 // CODE_CHANGES=getGitChanges()
 pipeline {
     agent any
+    tools {
+        nodejs "NODEJS"
+    }
     environment {
         MY_ENV_VAR = "1.0.0"
     }
@@ -63,21 +66,39 @@ pipeline {
             }
             steps {
                 echo "Print the env variables"
-                sh 'printenv'
-                echo "Git Commit: ${GIT_COMMIT}"
-                echo "Env Variable: ${MY_ENV_VAR}"
-                echo "Branch Name: ${BRANCH_NAME}"
-                sh 'git rev-parse ${GIT_COMMIT}'
-                sh 'git rev-parse ${GIT_COMMIT}^1'
-                sh 'git log --pretty=%P -n 1'
-                sh "git hist | grep origin/main | cut -d ' ' -f 2"
-                echo "Manual input needed"
-                script {
-                    // if (isMatchingPR) {
-                    input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
-                    // }
-                }
-                echo "After script"
+                // sh 'printenv'
+                // echo "Git Commit: ${GIT_COMMIT}"
+                // echo "Env Variable: ${MY_ENV_VAR}"
+                // echo "Branch Name: ${BRANCH_NAME}"
+                // sh 'git rev-parse ${GIT_COMMIT}'
+                // sh 'git rev-parse ${GIT_COMMIT}^1'
+                // sh 'git log --pretty=%P -n 1'
+                // sh "git hist | grep origin/main | cut -d ' ' -f 2"
+                // sh "git hist | grep origin/main | awk '{print \$2}'"
+                // parentCommit = $(sh "git hist | grep origin/main | awk '{print \$2}'")
+                // echo "Parent Commit id is ${parentCommit}"
+                // sh "git diff --name-only ${parentCommit}..HEAD"
+                // echo "${isReadme} - ${isReadme2}"
+
+
+                def nodeVersion = sh returnStdout: true, script:
+                """
+                node -v
+                """
+                echo "After script: Node version is ${nodeVersion}"
+
+                def scriptRes = sh returnStdout: true, script:
+                """
+                node checkfile.js
+                """
+                echo "scriptRes"
+                // echo "Manual input needed"
+                // script {
+                //     // if (isMatchingPR) {
+                //     input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                //     // }
+                // }
+                // echo "After script"
             }   
         }
         // returns a list of changed files
