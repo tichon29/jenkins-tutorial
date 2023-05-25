@@ -80,24 +80,23 @@ pipeline {
                 // sh "git diff --name-only ${parentCommit}..HEAD"
                 // echo "${isReadme} - ${isReadme2}"
 
-
-                def nodeVersion = sh returnStdout: true, script:
-                """
-                node -v
-                """
-                echo "After script: Node version is ${nodeVersion}"
-                def scriptRes = sh returnStdout: true, script:
-                """
-                node checkfile.js
-                """
-                echo "scriptRes"
                 // echo "Manual input needed"
-                // script {
+                script {
+                    def nodeVersion = sh returnStdout: true, script:
+                    """
+                    node -v
+                    """
+                    echo "After script: Node version is ${nodeVersion}"
+                    def scriptRes = sh returnStdout: true, script:
+                    """
+                    node checkfile.js
+                    """
+                    echo "scriptRes"
                 //     // if (isMatchingPR) {
                 //     input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
                 //     // }
-                // }
-                // echo "After script"
+                }
+                echo "After script"
             }   
         }
         // returns a list of changed files
