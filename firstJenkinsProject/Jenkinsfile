@@ -106,6 +106,9 @@ boolean checkTitleFake() {
 String getChangedFilesList() {
     echo "inside Get Changed Files List"
     changedFiles = []
+    def nbUpdatesFiles = 0
+    nbUpdatesFiles = currentBuild.changeSets.size()
+    echo "${nbUpdatesFiles} commits since last buid."
     for (changeLogSet in currentBuild.changeSets) {
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
             echo "Commit Message is: "
