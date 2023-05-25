@@ -86,7 +86,6 @@ pipeline {
                 node -v
                 """
                 echo "After script: Node version is ${nodeVersion}"
-
                 def scriptRes = sh returnStdout: true, script:
                 """
                 node checkfile.js
