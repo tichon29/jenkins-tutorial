@@ -5,7 +5,7 @@ const listOfUpdatedFiles = execSync(`git diff --name-only ${commitIdOnMasterBran
 let updatedMetadata = false;
 for (let index = 0; index < listOfUpdatedFiles.length && !updatedMetadata; index++) {
     console.log('TTES');
-    if (listOfUpdatedFiles[index] && listOfUpdatedFiles[index].indexOf('README2') !== -1) {
+    if (listOfUpdatedFiles[index] && listOfUpdatedFiles[index].indexOf('README') !== -1) {
         updatedMetadata = true;
     }
 }
