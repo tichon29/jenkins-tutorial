@@ -84,9 +84,6 @@ pipeline {
                 sh 'git log --graph --decorate --oneline'
                 sh 'git log --oneline --pretty=format:\'%h\' -1'
                 sh 'git rev-parse HEAD^1'
-                sh 'git rev-parse HEAD^^1'
-                sh 'git rev-parse HEAD^2'
-                sh 'git hist'
                 // echo "Manual input needed"
 
                 script {
