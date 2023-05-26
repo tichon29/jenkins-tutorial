@@ -51,7 +51,7 @@ pipeline {
             }
             steps {
                 sh 'printenv'
-                echo "Code has changed on main branch"
+                echo "Code has changed on main branch - Looks like so"
                 echo "Git Commit: ${GIT_COMMIT}"
                 echo "Env Variable: ${MY_ENV_VAR}"
                 echo "Branch Name: ${BRANCH_NAME}"
