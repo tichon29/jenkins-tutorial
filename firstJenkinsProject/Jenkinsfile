@@ -90,7 +90,7 @@ pipeline {
                     echo "After script: Node version is ${nodeVersion}"
                     def scriptRes = sh returnStdout: true, script:
                     """
-                    cat /etc/os-release && apk add git && node firstJenkinsProject/checkfile.js
+                    node firstJenkinsProject/checkfile.js
                     """
                     def splittedElem = scriptRes.split('\n')
                     def lastItem = splittedElem[splittedElem.length - 1]

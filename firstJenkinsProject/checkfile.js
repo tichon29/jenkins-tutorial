@@ -14,7 +14,7 @@ for (let index = 0; index < listOfUpdatedFiles.length && !updatedMetadata; index
         updatedMetadata = true;
     }
 }
-console.log('All files reviewed');
+console.log('All files reviewed - Done');
 if (updatedMetadata) {
     console.log(updatedMetadata);
 } else {
