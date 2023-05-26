@@ -66,7 +66,7 @@ pipeline {
             }
             steps {
                 echo "Print the env variables"
-                // sh 'printenv'
+                sh 'printenv'
                 // echo "Git Commit: ${GIT_COMMIT}"
                 // echo "Env Variable: ${MY_ENV_VAR}"
                 // echo "Branch Name: ${BRANCH_NAME}"
