@@ -81,6 +81,7 @@ pipeline {
                 // echo "${isReadme} - ${isReadme2}"
 
                 // echo "Manual input needed"
+
                 script {
                     def nodeVersion = sh returnStdout: true, script:
                     """
