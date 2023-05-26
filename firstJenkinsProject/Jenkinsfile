@@ -65,7 +65,7 @@ pipeline {
                 expression { isMatchingPR }
             }
             steps {
-                echo "Print the env variables"
+                echo "Print the env variables for this PR"
                 sh 'printenv'
                 // echo "Git Commit: ${GIT_COMMIT}"
                 // echo "Env Variable: ${MY_ENV_VAR}"
