@@ -1,8 +1,6 @@
 const { execSync } = require('child_process');
 
 console.log('Check File');
-const gitHist = execSync('git hist');
-console.log(gitHist);
 const commitIdOnMasterBranch = execSync('git hist | grep origin/main | awk \'{print $2}\'').toString().trim();
 console.log(commitIdOnMasterBranch);
 const listOfUpdatedFiles = execSync(`git diff --name-only ${commitIdOnMasterBranch}..HEAD`).toString().trim().split('\n');
