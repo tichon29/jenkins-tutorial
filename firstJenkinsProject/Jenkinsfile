@@ -3,6 +3,9 @@ Boolean isMatchingPR
 // CODE_CHANGES=getGitChanges()
 pipeline {
     agent any
+    tools {
+        nodejs "NODEJS"
+    }
     environment {
         MY_ENV_VAR = "1.0.0"
     }
@@ -62,10 +65,47 @@ pipeline {
                 expression { isMatchingPR }
             }
             steps {
-                echo "Manual input needed"
+                echo "Print the env variables"
+                sh 'printenv'
+                // echo "Git Commit: ${GIT_COMMIT}"
+                // echo "Env Variable: ${MY_ENV_VAR}"
+                // echo "Branch Name: ${BRANCH_NAME}"
+                // sh 'git rev-parse ${GIT_COMMIT}'
+                // sh 'git rev-parse ${GIT_COMMIT}^1'
+                // sh 'git log --pretty=%P -n 1'
+                // sh "git hist | grep origin/main | cut -d ' ' -f 2"
+                // sh "git hist | grep origin/main | awk '{print \$2}'"
+                // parentCommit = $(sh "git hist | grep origin/main | awk '{print \$2}'")
+                // echo "Parent Commit id is ${parentCommit}"
+                // sh "git diff --name-only ${parentCommit}..HEAD"
+                // echo "${isReadme} - ${isReadme2}"
+
+                sh 'git branch'
+                sh 'git log --graph --decorate --oneline'
+                sh 'git log --oneline --pretty=format:\'%h\' -1'
+                sh 'git rev-parse HEAD^1'
+                // echo "Manual input needed"
+
                 script {
+                    def nodeVersion = sh returnStdout: true, script:
+                    """
+                    node -v
+                    """
+                    echo "After script: Node version is ${nodeVersion}"
+                    def scriptRes = sh returnStdout: true, script:
+                    """
+                    node firstJenkinsProject/checkfile.js
+                    """
+                    def splittedElem = scriptRes.split('\n')
+                    def lastItem = splittedElem[splittedElem.length - 1]
+                    echo lastItem
+                    if (lastItem == "true") {
+                        echo "Matching identified"
+                        input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                    } else {
+                        echo "Matching NOT identified"
+                    }
                     // if (isMatchingPR) {
-                    input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
                     // }
                 }
                 echo "After script"
@@ -97,6 +137,9 @@ boolean checkTitleFake() {
 String getChangedFilesList() {
     echo "inside Get Changed Files List"
     changedFiles = []
+    def nbUpdatesFiles = 0
+    nbUpdatesFiles = currentBuild.changeSets.size()
+    echo "${nbUpdatesFiles} commits since last buid."
     for (changeLogSet in currentBuild.changeSets) {
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
             echo "Commit Message is: "
