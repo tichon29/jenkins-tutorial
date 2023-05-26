@@ -4,11 +4,12 @@ const commitIdOnMasterBranch = execSync(' git hist | grep origin/main | awk \'{p
 const listOfUpdatedFiles = execSync(`git diff --name-only ${commitIdOnMasterBranch}..HEAD`).toString().trim().split('\n');
 let updatedMetadata = false;
 for (let index = 0; index < listOfUpdatedFiles.length && !updatedMetadata; index++) {
-    console.log('TTES');
     if (listOfUpdatedFiles[index] && listOfUpdatedFiles[index].indexOf('README') !== -1) {
         updatedMetadata = true;
     }
 }
 
-console.log(updatedMetadata);
+if (updatedMetadata) {
+    console.log(updatedMetadata);
+}
 
