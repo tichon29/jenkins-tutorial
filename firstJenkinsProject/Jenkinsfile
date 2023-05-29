@@ -79,7 +79,10 @@ pipeline {
                 // echo "Parent Commit id is ${parentCommit}"
                 // sh "git diff --name-only ${parentCommit}..HEAD"
                 // echo "${isReadme} - ${isReadme2}"
-
+                sh 'echo "Get build Info"'
+                checkout scm
+                def lastSuccessfulCommit = getLastSuccessfulCommit()
+                sh 'echo "Build Info is ${lastSuccessfulCommit}"'
                 sh 'git branch'
                 sh 'git log --graph --decorate --oneline'
                 sh 'git log --oneline --pretty=format:\'%h\' -1'
@@ -119,6 +122,15 @@ pipeline {
             }        
         }
     }
+}
+
+def getLastSuccessfulCommit() {
+  def lastSuccessfulHash = null
+  def lastSuccessfulBuild = currentBuild.rawBuild.getPreviousSuccessfulBuild()
+  if ( lastSuccessfulBuild ) {
+    lastSuccessfulHash = commitHashForBuild( lastSuccessfulBuild )
+  }
+  return lastSuccessfulHash
 }
 
 @NonCPS
