@@ -88,7 +88,7 @@ pipeline {
                 script {
                     sh 'echo "Get build Info"'
                     checkout scm
-                    def lastSuccessfulCommit = getLastSuccessfulCommit()
+                    def listOfCommits = getCommitsSinceLastSuccessfulBuild()
                     sh 'echo "Build Info is ${lastSuccessfulCommit}"'
                     def nodeVersion = sh returnStdout: true, script:
                     """
@@ -124,13 +124,23 @@ pipeline {
     }
 }
 
-def getLastSuccessfulCommit() {
-  def lastSuccessfulHash = null
-  def lastSuccessfulBuild = currentBuild.rawBuild.getPreviousSuccessfulBuild()
-  if ( lastSuccessfulBuild ) {
-    lastSuccessfulHash = commitHashForBuild( lastSuccessfulBuild )
+def getCommitsSinceLastSuccessfulBuild() {
+  def build = currentBuild
+  while (build != null && build.result != 'SUCCESS') {
+    println "Build Result"
+    println build.result
+    println "ChangeSets"
+    println build.changeSets
+    changes += (build.changeSets.collect { changeSet ->
+      (changeSet.items.collect { item ->
+        (item.affectedFiles.collect { affectedFile ->
+          affectedFile.path
+        }).flatten()
+      }).flatten()
+    }).flatten()
+    build = build.previousBuild
   }
-  return lastSuccessfulHash
+  return changes.unique()
 }
 
 @NonCPS
