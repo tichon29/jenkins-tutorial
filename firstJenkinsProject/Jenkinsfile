@@ -125,6 +125,7 @@ pipeline {
 }
 
 def getCommitsSinceLastSuccessfulBuild() {
+  def changes = []
   def build = currentBuild
   while (build != null && build.result != 'SUCCESS') {
     println "Build Result"
