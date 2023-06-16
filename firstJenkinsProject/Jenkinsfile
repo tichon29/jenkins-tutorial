@@ -87,6 +87,10 @@ pipeline {
                 // echo "Manual input needed"
 
                 script {
+                    sh 'echo "Get build Info"'
+                    checkout scm
+                    def listOfCommits = printCommitsDetails()
+                    sh 'echo "Build Info is ${lastSuccessfulCommit}"'
                     def nodeVersion = sh returnStdout: true, script:
                     """
                     node -v
@@ -119,6 +123,51 @@ pipeline {
             }        
         }
     }
+}
+
+def printCommitsDetails() {
+  def build = currentBuild
+  def nbBuild = 0
+  def autoTriggers = [
+    "com.cloudbees.jenkins.GitHubPushCause",
+    "jenkins.branch.BranchIndexingCause",
+    "jenkins.branch.BranchEventCause"
+  ]
+  while (build != null && build.result != 'SUCCESS') {
+    println "Build Result: ${build.result}"
+    println "Build id is ${build.id}"
+    println build.description
+    println build.changeSets
+    def causes = build.getBuildCauses()
+    println "Cause: ${causes[0]._class)}"
+    if(autoTriggers.contains(causes[0]._class)) {
+      nbBuild++
+    }
+    def nbChangeSets = build.changeSets.size()
+    println "NbChangeSets=${nbChangeSets}"
+    for(int i=0; i<nbChangeSets && !metadataUpdated; i++) {
+      def changeSet = build.changeSets[i]
+      def nbItems = changeSet.items.size()
+      println "NbItems=${nbItems}"
+      for(int j=0; j<nbItems && !metadataUpdated; j++) {
+        def item = changeSet.items[j]
+        println "Item=${item}"
+        def nbFiles = item.affectedFiles.size()
+        for (int k=0; k<nbFiles && !metadataUpdated; k++) {
+          println "Affected file is ${item.affectedFiles[k].path}"
+        }
+      }
+    }
+    // changes += (build.changeSets.collect { changeSet ->
+    //   (changeSet.items.collect { item ->
+    //     (item.affectedFiles.collect { affectedFile ->
+    //       affectedFile.path
+    //     }).flatten()
+    //   }).flatten()
+    // }).flatten()
+    build = build.previousBuild
+  }
+  //return changes.unique()
 }
 
 @NonCPS
