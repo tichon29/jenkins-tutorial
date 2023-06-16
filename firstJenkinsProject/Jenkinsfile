@@ -135,24 +135,38 @@ def printCommitsDetails() {
     println "Build id is ${build.id}"
     def causes = build.getBuildCauses()
     println "Cause: ${causes[0]._class}"
+    println build.previousCompletedBuild
     if(autoTriggers.contains(causes[0]._class)) {
       nbBuild++
     }
-    def nbChangeSets = build.changeSets.size()
-    println "NbChangeSets=${nbChangeSets}"
-    for(int i=0; i<nbChangeSets; i++) {
-      def changeSet = build.changeSets[i]
-      def nbItems = changeSet.items.size()
-      println "NbItems=${nbItems}"
-      for(int j=0; j<nbItems; j++) {
-        def item = changeSet.items[j]
-        println "Item=${item}"
-        def nbFiles = item.affectedFiles.size()
-        for (int k=0; k<nbFiles; k++) {
-          println "Affected file is ${item.affectedFiles[k].path}"
+    if (build.previousCompletedBuild) {
+        def nbChangeSets = build.changeSets.size()
+        println "NbChangeSets=${nbChangeSets}"
+        for(int i=0; i<nbChangeSets; i++) {
+            def changeSet = build.changeSets[i]
+            def nbItems = changeSet.items.size()
+            println "NbItems=${nbItems}"
+            for(int j=0; j<nbItems; j++) {
+                def item = changeSet.items[j]
+                println "Item=${item}"
+                def nbFiles = item.affectedFiles.size()
+                for (int k=0; k<nbFiles; k++) {
+                    println "Affected file is ${item.affectedFiles[k].path}"
+                }
+            }
         }
-      }
+    } else {
+        echo "Get list of updated files for first commit"
+        def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin/master --name-only')
+        echo listOfFilesUpdated
+        def containsTestFile = sh(returnStatus: true, script: 'git diff origin/master --name-only | grep checkfile')
+        if (containsTestFile) {
+            console.log('Checkfile updated')
+        } else {
+            console.log('Checkfile not updated')
+        }
     }
+    
     // changes += (build.changeSets.collect { changeSet ->
     //   (changeSet.items.collect { item ->
     //     (item.affectedFiles.collect { affectedFile ->
