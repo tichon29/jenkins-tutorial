@@ -211,7 +211,6 @@ String getChangedFilesList() {
     def nbChangeSets = currentBuild.changeSets.size()
     echo "${nbChangeSets} commits since last buid."
     for (changeLogSet in currentBuild.changeSets) {
-        echo changeLogSet.getItems().size()
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
             echo "Commit Message is: "
                echo entry.getMsgAnnotated()
