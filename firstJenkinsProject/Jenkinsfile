@@ -215,7 +215,7 @@ String getChangedFilesList() {
             echo "Commit Message is:"
                echo entry.getMsgAnnotated()
             for (file in entry.getAffectedFiles()) {
-                echo "Updated file is: "
+                echo "Updated file is:"
                 echo file.getPath()
                 changedFiles.add(file.getPath()) // add changed file to list
             }
