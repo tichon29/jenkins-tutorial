@@ -142,15 +142,15 @@ def printCommitsDetails() {
     }
     def nbChangeSets = build.changeSets.size()
     println "NbChangeSets=${nbChangeSets}"
-    for(int i=0; i<nbChangeSets && !metadataUpdated; i++) {
+    for(int i=0; i<nbChangeSets; i++) {
       def changeSet = build.changeSets[i]
       def nbItems = changeSet.items.size()
       println "NbItems=${nbItems}"
-      for(int j=0; j<nbItems && !metadataUpdated; j++) {
+      for(int j=0; j<nbItems; j++) {
         def item = changeSet.items[j]
         println "Item=${item}"
         def nbFiles = item.affectedFiles.size()
-        for (int k=0; k<nbFiles && !metadataUpdated; k++) {
+        for (int k=0; k<nbFiles; k++) {
           println "Affected file is ${item.affectedFiles[k].path}"
         }
       }
