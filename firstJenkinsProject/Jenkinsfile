@@ -157,14 +157,14 @@ def printCommitsDetails() {
         }
     } else {
         echo "Get list of updated files for first commit"
-        def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin --name-only')
-        echo listOfFilesUpdated
-        def containsTestFile = sh(returnStatus: true, script: 'git diff origin/main --name-only | grep checkfile')
-        if (containsTestFile) {
-            console.log('Checkfile updated')
-        } else {
-            console.log('Checkfile not updated')
-        }
+        // def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin --name-only')
+        // echo listOfFilesUpdated
+        // def containsTestFile = sh(returnStatus: true, script: 'git diff origin/main --name-only | grep checkfile')
+        // if (containsTestFile) {
+        //     console.log('Checkfile updated')
+        // } else {
+        //     console.log('Checkfile not updated')
+        // }
     }
     
     // changes += (build.changeSets.collect { changeSet ->
@@ -176,7 +176,19 @@ def printCommitsDetails() {
     // }).flatten()
     build = build.previousBuild
   }
+  getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbBuild)
   //return changes.unique()
+}
+
+def getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbCommits) {
+  def commitId = sh(returnStatus: true, script: 'git rev-parse HEAD~${nbCommits}')
+  println "CommitId is ${commitId}"
+  def diffCheckFile = sh(returnStatus: true, script: 'git diff HEAD~${nbCommits} HEAD firstJenkinsProject/checkfile.js')
+  if (diffCheckFile) {
+    println "Checkfile.js file has been updated"
+  } else {
+    println "Checkfile.js is unchanged"
+  }
 }
 
 @NonCPS
