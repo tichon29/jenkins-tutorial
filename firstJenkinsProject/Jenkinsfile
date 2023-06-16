@@ -182,9 +182,9 @@ def printCommitsDetails() {
 
 def getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbCommits) {
   println "Calling getCommitIdForPreviousSuccessAndCheckIfFileUpdated with nbCommits=${nbCommits}"
-  def commitId = sh(returnStdout: true, script: "git rev-parse HEAD~$nbCommits")
+  def commitId = sh(returnStdout: true, script: `git rev-parse HEAD~${nbCommits}`)
   println "CommitId is ${commitId}"
-  def diffCheckFile = sh(returnStdout: true, script: 'git diff HEAD~${nbCommits} HEAD firstJenkinsProject/checkfile.js')
+  def diffCheckFile = sh(returnStdout: true, script: `git diff HEAD~${nbCommits} HEAD firstJenkinsProject/checkfile.js`)
   if (diffCheckFile) {
     println "Checkfile.js file has been updated"
   } else {
