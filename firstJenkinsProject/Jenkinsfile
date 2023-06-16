@@ -157,7 +157,7 @@ def printCommitsDetails() {
         }
     } else {
         echo "Get list of updated files for first commit"
-        def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin/main --name-only')
+        def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin --name-only')
         echo listOfFilesUpdated
         def containsTestFile = sh(returnStatus: true, script: 'git diff origin/main --name-only | grep checkfile')
         if (containsTestFile) {
