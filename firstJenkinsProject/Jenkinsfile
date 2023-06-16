@@ -130,7 +130,7 @@ def printCommitsDetails() {
     "jenkins.branch.BranchIndexingCause",
     "jenkins.branch.BranchEventCause"
   ]
-  while (build != null && build.result != 'SUCCESS') {
+  while (build != null) {// && build.result != 'SUCCESS') {
     println "Build Result: ${build.result}"
     println "Build id is ${build.id}"
     def causes = build.getBuildCauses()
