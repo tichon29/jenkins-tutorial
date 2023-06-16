@@ -139,10 +139,10 @@ def printCommitsDetails() {
     println build.description
     println build.changeSets
     def causes = build.getBuildCauses()
-    println "Causes: ${causes)}"
-    // if(autoTriggers.contains(causes[0]._class)) {
-    //   nbBuild++
-    // }
+    println "Cause: ${causes[0]._class}"
+    if(autoTriggers.contains(causes[0]._class)) {
+      nbBuild++
+    }
     def nbChangeSets = build.changeSets.size()
     println "NbChangeSets=${nbChangeSets}"
     for(int i=0; i<nbChangeSets && !metadataUpdated; i++) {
