@@ -12,7 +12,7 @@ for (let index = 0; index < listOfUpdatedFiles.length && !updatedMetadata; index
         updatedMetadata = true;
     }
 }
-console.log('All filesreviewed');
+console.log('All files reviewed');
 if (updatedMetadata) {
     console.log(updatedMetadata);
 } else {
