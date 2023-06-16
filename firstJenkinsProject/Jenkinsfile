@@ -1,6 +1,5 @@
 Boolean isMatchingPR
 
-// CODE_CHANGES=getGitChanges()
 pipeline {
     agent any
     tools {
@@ -84,11 +83,10 @@ pipeline {
                 sh 'git log --graph --decorate --oneline'
                 sh 'git log --oneline --pretty=format:\'%h\' -1'
                 sh 'git rev-parse HEAD^1'
-                // echo "Manual input needed"
 
                 script {
                     sh 'echo "Get build Info"'
-                    checkout scm
+                    // checkout scm
                     printCommitsDetails()
                     def nodeVersion = sh returnStdout: true, script:
                     """
