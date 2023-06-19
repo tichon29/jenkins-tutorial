@@ -157,7 +157,7 @@ def printCommitsDetails() {
         }
     } else {
         echo "Get list of updated files for first commit"
-        def lastSuccessfulCommit = commitHashForBuild(build)
+        def lastSuccessfulCommit = commitHashForBuild(build.rawBuild)
         println "Last Success Commit is: ${lastSuccessfulCommit}"
         // def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin --name-only')
         // echo listOfFilesUpdated
