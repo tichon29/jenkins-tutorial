@@ -157,6 +157,7 @@ def printCommitsDetails() {
         }
     } else {
         echo "Get list of updated files for first commit"
+        echo "Build.rawBuild is ${build.rawBuild}"
         def lastSuccessfulCommit = commitHashForBuild(build.rawBuild)
         println "Last Success Commit is: ${lastSuccessfulCommit}"
         // def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin --name-only')
@@ -227,6 +228,9 @@ String getChangedFilesList() {
 }
 
 def commitHashForBuild( build ) {
-    def scmAction = build?.actions.find { action -> action instanceof jenkins.scm.api.SCMRevisionAction }
-    return scmAction?.revision?.hash
+    if (build?.actions) {
+        def scmAction = build?.actions.find { action -> action instanceof jenkins.scm.api.SCMRevisionAction }
+        return scmAction?.revision?.hash
+    }
+    return 'NotFound'
 }
