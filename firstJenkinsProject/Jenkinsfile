@@ -87,7 +87,7 @@ pipeline {
                 script {
                     sh 'echo "Get build Info"'
                     // checkout scm
-                    def updated = getCommitsDetails()
+                    def updated = getCommitDetails()
                     def nodeVersion = sh returnStdout: true, script:
                     """
                     node -v
