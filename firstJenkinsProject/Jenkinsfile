@@ -157,6 +157,8 @@ def printCommitsDetails() {
         }
     } else {
         echo "Get list of updated files for first commit"
+        def lastSuccessfulCommit = commitHashForBuild(build)
+        println "Last Success Commit is: ${lastSuccessfulCommit}"
         // def listOfFilesUpdated = sh(returnStatus: true, script: 'git diff  origin --name-only')
         // echo listOfFilesUpdated
         // def containsTestFile = sh(returnStatus: true, script: 'git diff origin/main --name-only | grep checkfile')
@@ -211,7 +213,6 @@ String getChangedFilesList() {
     def nbChangeSets = currentBuild.changeSets.size()
     echo "${nbChangeSets} commits since last buid."
     for (changeLogSet in currentBuild.changeSets) {
-        echo "$(changeLogSet.items)"
         for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
             echo "Commit Message is: "
                echo entry.getMsgAnnotated()
@@ -223,4 +224,9 @@ String getChangedFilesList() {
         }
     }
     return changedFiles
+}
+
+def commitHashForBuild( build ) {
+    def scmAction = build?.actions.find { action -> action instanceof jenkins.scm.api.SCMRevisionAction }
+    return scmAction?.revision?.hash
 }
