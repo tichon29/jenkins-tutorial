@@ -12,10 +12,10 @@ for (let index = 0; index < listOfUpdatedFiles.length && !updatedMetadata; index
         updatedMetadata = true;
     }
 }
-console.log('All files reviewed');
+console.log('All files reviewed.');
 if (updatedMetadata) {
     console.log(updatedMetadata);
 } else {
-    console.log('File not updated');
+    console.log('File not updated.');
 }
 
