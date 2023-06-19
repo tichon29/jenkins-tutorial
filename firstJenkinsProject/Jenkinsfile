@@ -87,7 +87,7 @@ pipeline {
                 script {
                     sh 'echo "Get build Info"'
                     // checkout scm
-                    def updated = getCommitDetails()
+                    def updated = getCommitsDetails()
                     def nodeVersion = sh returnStdout: true, script:
                     """
                     node -v
@@ -112,6 +112,12 @@ pipeline {
                         
                     } else {
                         echo "Matching NOT identified"
+                        try {
+                            input (message: "Adding an input even if no update to check it", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                            echo "VALIDATED"
+                        } catch(e) {
+                            echo "CANCELLED"
+                        }
                     }
                     // if (isMatchingPR) {
                     // }
@@ -129,7 +135,7 @@ pipeline {
     }
 }
 
-def getCommitDetails() {
+def getCommitsDetails() {
   def build = currentBuild
   def nbBuild = 0
   def autoTriggers = [
@@ -181,8 +187,10 @@ def getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbCommits) {
   def diffCheckFile = sh(returnStdout: true, script: "git diff HEAD~$nbCommits HEAD firstJenkinsProject/checkfile.js")
   if (diffCheckFile) {
     println "Checkfile.js file has been updated"
+    return true
   } else {
     println "Checkfile.js is unchanged"
+    return false
   }
 }
 
