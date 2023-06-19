@@ -87,20 +87,21 @@ pipeline {
                 script {
                     sh 'echo "Get build Info"'
                     // checkout scm
-                    printCommitsDetails()
+                    def updated = getCommitsDetails()
                     def nodeVersion = sh returnStdout: true, script:
                     """
                     node -v
                     """
                     echo "After script: Node version is ${nodeVersion}"
-                    def scriptRes = sh returnStdout: true, script:
-                    """
-                    node firstJenkinsProject/checkfile.js
-                    """
-                    def splittedElem = scriptRes.split('\n')
-                    def lastItem = splittedElem[splittedElem.length - 1]
-                    echo lastItem
-                    if (lastItem == "true") {
+                    // def scriptRes = sh returnStdout: true, script:
+                    // """
+                    // node firstJenkinsProject/checkfile.js
+                    // """
+                    // def splittedElem = scriptRes.split('\n')
+                    // def lastItem = splittedElem[splittedElem.length - 1]
+                    //echo lastItem
+                    // if (lastItem == "true") {
+                    if (updated) {
                         echo "Matching identified"
                         try {
                             input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
@@ -128,7 +129,7 @@ pipeline {
     }
 }
 
-def printCommitsDetails() {
+def getCommitDetails() {
   def build = currentBuild
   def nbBuild = 0
   def autoTriggers = [
@@ -169,7 +170,8 @@ def printCommitsDetails() {
     }
     build = build.previousBuild
   }
-  getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbBuild)
+  def result = getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbBuild)
+  return result
 }
 
 def getCommitIdForPreviousSuccessAndCheckIfFileUpdated(nbCommits) {
