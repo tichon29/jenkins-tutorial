@@ -12,12 +12,17 @@ pipeline {
         stage('clone repo') {
             steps {
                 sh 'mkdir -p gws'
+                sh 'pwd'
+                // sh '/opt/homebrew/bin/hg clone --insecure https://hg.gws.genesys.com/hgweb.cgi/gws'
                 dir ('gws') {
                     checkout scm: ([
+                        clean: true,
                         $class: 'MercurialSCM',
                         source: 'https://hg.gws.genesys.com/hgweb.cgi/gws',
                         credentialsId: 'hervoch1-okta-secret',
-                        installation: 'build-mac'
+                        installation: 'build-mac',
+                        modules: 'cloud-server/agent-desktop',
+                        subdir: 'webapp'
                     ])
                 }
             }
