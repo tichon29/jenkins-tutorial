@@ -102,7 +102,13 @@ pipeline {
                     echo lastItem
                     if (lastItem == "true") {
                         echo "Matching identified"
-                        input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                        try {
+                            input (message: "Ok with these changes?", ok: "Oh Yes", cancel: "Oh no", submitter: "tichon1, tichon2", submitterParameter: "SUBMITTER_USERNAME")
+                            echo "VALIDATED"
+                        } catch(e) {
+                            echo "CANCELLED"
+                        }
+                        
                     } else {
                         echo "Matching NOT identified"
                     }
