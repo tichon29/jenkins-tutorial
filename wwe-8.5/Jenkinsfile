@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh 'mkdir -p gws'
                 sh 'pwd'
-                secret2 = credentials('plop')
+                def secret2 = credentials('plop')
                 // sh '/opt/homebrew/bin/hg clone --insecure https://hg.gws.genesys.com/hgweb.cgi/gws'
                 echo 'This is secret1: ${secret1}'
                 echo 'This is secret2: ${secret2}'
