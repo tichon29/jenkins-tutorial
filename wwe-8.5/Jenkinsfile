@@ -14,7 +14,7 @@ pipeline {
                 sh 'mkdir -p gws'
                 dir ('gws') {
                     checkout scm: ([
-                        $class: 'MercuriaSCM',
+                        $class: 'MercurialSCM',
                         userRemoteConfigs: [[credentialsId: 'hervoch1-okta-secret', url: 'https://hg.gws.genesys.com/hgweb.cgi/gws']]
                     ])
                 }
