@@ -4,12 +4,14 @@ pipeline {
     agent any
     stages {
         stage('clone repo') {
-            sh 'mkdir -p gws'
-            dir ('gws') {
-                checkout scm: ([
-                    $class: 'MercuriaSCM',
-                    userRemoteConfigs: [[credentialsId: 'hervoch1-okta-secret', url: 'https://hg.gws.genesys.com/hgweb.cgi/gws']]
-                ])
+            steps {
+                sh 'mkdir -p gws'
+                dir ('gws') {
+                    checkout scm: ([
+                        $class: 'MercuriaSCM',
+                        userRemoteConfigs: [[credentialsId: 'hervoch1-okta-secret', url: 'https://hg.gws.genesys.com/hgweb.cgi/gws']]
+                    ])
+                }
             }
         }
     }
