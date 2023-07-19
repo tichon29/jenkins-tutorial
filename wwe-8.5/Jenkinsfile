@@ -1,19 +1,19 @@
-Boolean isMatchingPR
-
 pipeline {
     agent any
-    tools {
-        nodejs "NODEJS"
-    }
     environment {
-        MY_ENV_VAR = "1.0.0"
+        secret1 = credentials('plop')
     }
     stages {
         stage('clone repo') {
             steps {
                 sh 'mkdir -p gws'
                 sh 'pwd'
+                secret2 = credentials('plop')
                 // sh '/opt/homebrew/bin/hg clone --insecure https://hg.gws.genesys.com/hgweb.cgi/gws'
+                echo 'This is secret1: ${secret1}'
+                echo 'This is secret2: ${secret2}'
+                echo "This is secret1: ${secret1}"
+                echo "This is secret2: ${secret2}"
                 dir ('gws') {
                     checkout scm: ([
                         clean: true,
