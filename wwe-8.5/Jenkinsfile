@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        secret1 = credentials('plop')
+        secret1 = credentials('plop11')
     }
     stages {
         stage('clone repo') {
