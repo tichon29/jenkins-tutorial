@@ -15,7 +15,9 @@ pipeline {
                 dir ('gws') {
                     checkout scm: ([
                         $class: 'MercurialSCM',
-                        userRemoteConfigs: [[credentialsId: 'hervoch1-okta-secret', url: 'https://hg.gws.genesys.com/hgweb.cgi/gws']]
+                        source: 'https://hg.gws.genesys.com/hgweb.cgi/gws',
+                        credentialsId: 'hervoch1-okta-secret',
+                        installation: 'build-mac'
                     ])
                 }
             }
