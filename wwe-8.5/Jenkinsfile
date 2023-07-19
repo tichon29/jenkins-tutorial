@@ -2,21 +2,14 @@ Boolean isMatchingPR
 
 pipeline {
     agent any
-    tools {
-        nodejs "NODEJS"
-    }
-    environment {
-        MY_ENV_VAR = "1.0.0"
-    }
     stages {
         stage('clone repo') {
-            steps {
-                echo "Clone the repository"
-                sh '''
-                    #!/bin/sh
-                    hg clone https://hg.gws.genesys.com/hgweb.cgi/gws --insecure
-                    echo "end"
-                '''
+            sh 'mkdir -p gws'
+            dir ('gws') {
+                checkout scm: ([
+                    $class: 'MercuriaSCM',
+                    userRemoteConfigs: [[credentialsId: 'hervoch1-okta-secret', url: 'https://hg.gws.genesys.com/hgweb.cgi/gws']]
+                ])
             }
         }
     }
